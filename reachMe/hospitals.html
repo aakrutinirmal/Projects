@@ -1,0 +1,139 @@
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style/global.css"/>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Covered+By+Your+Grace' rel='stylesheet' type='text/css'>  
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"/>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/general.js"></script>
+</head>
+<body>
+<div id="header">
+<div class="logo"><a href="index.html">REACH<span id="name">me</span></a></div>
+</div>
+
+<a class="mobile">MENU</a>
+
+<div id="container">
+<div class="sidebar">
+	<ul id="nav">
+		<li><a  href="index.html">Home</a></li>
+		<li><a class="selected" href="hospitals.html">Hospitals</a></li>
+		<li><a href="gasstation.html">Gas Stations</a></li>
+		<li><a href="restaurants.html">Restaurants</a></li>
+		<li><a href="entertainment.html">Entertainment</a></li>
+		<li><a href="weatherindex.html">Weather</a></li>
+	</ul>
+</div>
+<div class="content" id="hospital">
+	<!--<h1>Dashboard</h1>
+	<p>Here do some stuff</p>-->
+	<div id="box">
+		<div class="box-top">Nearest Hospitals</div>
+		<div class="box-panel">
+		
+			-Drug Overdose Deaths Hit New Record in U.S., CDC Says<br>
+			-FDA Proposes Ban On Tanning For Anyone Under 18
+	
+		</div>
+	</div>
+	
+	<div id="list"><span >Look what you found:</span></div>
+	<div id="map" class="col-sm-8" style="height: 300px;"></div>
+</div>
+
+
+</div>
+<script>
+	var geocoder;
+	var myLocation = null;
+	var map;
+	var service;
+	var infowindow;
+
+	$(document).ready(function(){
+ if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(displayMap);
+	    }
+	});
+
+	
+
+	function displayMap(position){
+		  
+		  myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		  var mapOptions = {
+				          center: myLocation,
+				          zoom: 13
+				        };
+
+		 map = new google.maps.Map($('#map').get(0), mapOptions);
+		 infowindow = new google.maps.InfoWindow();
+
+		  // var request = {
+		  //   location: myLocation,
+		  //   radius: '5000',
+		  //   types: ['movie_theatre']
+		  // };
+
+		  var request = {
+		    location: myLocation,
+		    radius: '400',
+		   // query: $('#searchText').val()
+		   query: 'hospitals'
+		  };
+
+		service = new google.maps.places.PlacesService(map);
+		  // service.nearbySearch(request, callback);
+		  service.textSearch(request, callback);
+
+		  var marker = new google.maps.Marker({
+		    map: map,
+		    position: myLocation,
+		    title: 'Your Location'
+		  });
+	}
+
+	function callback(results, status) {
+	  if (status == google.maps.places.PlacesServiceStatus.OK) {
+	  	 var createUl='<ul id="listId">';
+	    for (var i = 0; i <2; i++) {
+	      var place = results[i];
+	     
+	      createUl += result(place);
+	      
+	      createMarker(results[i]);
+	    }
+	    createUl +='</ul>';
+	    $('#list').append(createUl);
+	  }
+	}
+
+function result(place){
+ var list = '<li>';
+ list += '<div>' + place.name + '</div>' +'<div>' + place.formatted_address + '</div>'+'</li>';
+ return list;
+}
+
+	function createMarker(place) {
+	  var marker = new google.maps.Marker({
+	    map: map,
+	    position: place.geometry.location,
+	    icon: {
+	      url: 'http://maps.gstatic.com/mapfiles/circle.png',
+	      anchor: new google.maps.Point(10, 10),
+	      scaledSize: new google.maps.Size(10, 17)
+	    }
+  		});
+  		google.maps.event.addListener(marker, 'click', function() {
+		    infowindow.setContent(place.name);
+		    infowindow.open(map, this);
+		  });
+
+	}
+				
+</script>
+</body>
+</html>

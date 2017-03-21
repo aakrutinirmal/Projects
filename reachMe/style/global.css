@@ -1,0 +1,270 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic");
+
+*{
+	margin: 0;
+	padding:0;
+	box-sizing:border-box;
+}
+
+body{
+	font-family: 'Open Sans';
+}
+
+a{
+	text-decoration: none;
+}
+
+div#header{
+	width: 100%;
+	height: 50px;
+	background-color: #2c3e50; 
+	margin:0 auto;
+	
+}
+
+.logo{
+	float: left;
+	margin-top: 10px; 
+	margin-left: 10px;
+
+}
+
+span#name{
+font-weight: 300;
+font-size: 22px;
+}
+.logo a{
+font-size: 1.3em;
+color: #fff;
+
+}
+
+.logo a span{
+	font-weight: 300;
+}
+div#container {
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.sidebar{
+	width: 250px;
+	/*height:calc(100%-50px); /*to remove scroll*/
+	/*height: 100%;*/
+	background-color: #CD6090;
+	float: left;
+}
+
+.content{
+	width: auto;
+	margin-left: 250px;
+	/*height: calc(100%-50px);/*might not work in mozilla*/
+	height: 100%;
+	background-color: #95a5a6;
+	padding: 15px;
+	background: url(images/people2.jpg);
+
+}
+
+.content p{
+	color: #424242;
+	font-size: 0.73em;
+
+}
+
+.content#hospital{
+width: auto;
+	margin-left: 250px;
+	/*height: calc(100%-50px);/*might not work in mozilla*/
+	height: 100%;
+	background-color: #95a5a6;
+	padding: 15px;
+	background: url(images/doctorBackground.jpeg);
+
+}
+.content#gasstation{
+width: auto;
+	margin-left: 250px;
+	/*height: calc(100%-50px);/*might not work in mozilla*/
+	height: 100%;
+	background-color: #95a5a6;
+	padding: 15px;
+	background: url(images/gasstation1.jpg);
+
+}
+
+.content#entertainment{
+width: auto;
+	margin-left: 250px;
+	/*height: calc(100%-50px);/*might not work in mozilla*/
+	height: 100%;
+	background-color: #95a5a6;
+	padding: 15px;
+	background: url(images/entertain.png);
+
+}
+
+
+.content#restaurants{
+width: auto;
+	margin-left: 250px;
+	/*height: calc(100%-50px);/*might not work in mozilla*/
+	height: 100%;
+	background-color: #95a5a6;
+	padding: 15px;
+	background: url(images/restaurants.jpg);
+
+}
+
+.content#weather{
+width: auto;
+	margin-left: 250px;
+	/*height: calc(100%-50px);/*might not work in mozilla*/
+	height: 100%;
+	background-color: #95a5a6;
+	padding: 15px;
+	background: url(images/weather.jpg);
+
+}
+
+div#box{
+	margin-top: 15px;
+}
+
+div#box .box-top{
+	color: #fff;
+	text-shadow:0px 1px #000 ;
+	background-color: #2C3E50;
+	padding: 5px;
+	padding-left: 15px;
+	font-weight: 300;
+}
+
+div#box .box-panel{
+	padding: 15px;
+	background-color: #000;
+	opacity: 0.6;
+	color:#fff;
+}
+
+ul#nav {}
+
+ul#nav li{
+	list-style: none;
+	font-size: 18px;
+}
+
+ul#nav li a{
+	color: #ccc;
+	display: block;
+	padding: 10px;
+	font-size: 0.8em;
+	border-bottom: 1px solid #0A0A0A;
+	-webkit-transition: 0.2s;
+	-moz-transition:0.2s;
+	-o-transition:0.2s;
+	transition:0.2s;
+}
+
+ul#nav li a:hover{
+	background-color: #030303;
+	color: #fff;
+	padding-left: 30px;
+}
+
+
+ul#nav li a.selected{
+	background-color: #030303;
+	color: #fff;
+}
+
+a.mobile{
+	display: block;
+	color: #fff;
+	background-color: #000;
+	text-align: center;
+	padding: 7px;
+
+}
+
+a.mobile:active{
+	background-color: #4a4a4a;
+}
+
+
+/*media queries */ 
+
+@media only screen and (max-width: 320px){
+	.sidebar{
+		width: 100%;
+		display: none;
+	}
+	.content,.content#hospital,.content#gasstation,.content#restaurants,.content#entertainment,.content#weather {
+		margin-left: 0px;
+	}
+
+	div#list{
+		font-size: 12px;
+	}
+
+	img#here{
+	height: 20px;
+	width: 20px;
+}
+
+span#hereiam{
+	font-size: 12px;
+	color: #CD6090;
+	font-weight: 300;
+	background-color: #000;
+}
+
+}
+
+
+@media only screen and (min-width: 320px){
+	a.mobile{
+		display: none;
+	}
+
+
+	.sidebar{
+		height: 100%;
+
+	}
+}
+
+div ul{
+color: white;
+}
+
+div span{
+color: white;
+font-style: italic;
+font-weight: 400;
+}
+div#list{
+opacity: 0.6;
+background: #000; 
+font-weight: 300;
+list-style: none;
+}
+
+.ajaxSearch{
+	margin-top: 15px;
+color: #2c3e50;
+
+}
+img#here{
+	margin-top: 10px;
+	height: 50px;
+	width: 50px;
+background-color: #000;
+}
+
+span#hereiam{
+	font-size: 32px;
+	color: #CD6090;
+	font-weight: 1300;
+	background-color: #000;
+}

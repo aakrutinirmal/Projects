@@ -1,0 +1,204 @@
+<html>
+<head>
+<title>Web Design Project</title>
+<link rel="stylesheet" type="text/css" href="style/global.css"/>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Covered+By+Your+Grace' rel='stylesheet' type='text/css'>  
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"/>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/general.js"></script>
+</head>
+<body>
+<div id="header">
+<div class="logo"><a href="index.html">REACH<span id="name">me</span></a></div>
+</div>
+
+<a class="mobile">MENU</a>
+
+<div id="container">
+<div class="sidebar">
+	<ul id="nav">
+		<li><a class="selected" href="index.html">Home</a></li>
+		<li><a href="hospitals.html">Hospitals</a></li>
+		<li><a href="gasstation.html">Gas Stations</a></li>
+		<li><a href="restaurants.html">Restaurants</a></li>
+		<li><a href="entertainment.html">Entertainment</a></li>
+		<li><a href="weatherindex.html">Weather</a></li>
+	</ul>
+
+<form class="ajaxSearch">
+	City Name: <input type="text" onKeyUp="ajaxFunction(this.value)" required/>
+	<div id="cityDiv"></div>
+	</form>
+</div>
+<div class="content">
+	<!--<h1>Dashboard</h1>
+	<p>Here do some stuff</p>-->
+	<div id="box">
+		<div class="box-top">News Feed</div>
+		<div class="box-panel">
+			
+			-Fenway bar faces licensing hearing<br>
+			-New 'Star Wars' movie has record $57M opening night
+
+		</div>
+	</div>
+	<div id="box">
+		<div class="box-top">Weather Forecast</div>
+		<div class="box-panel">
+			Summers are typically warm to hot, rainy, and humid, while winters oscillate between periods of cold rain and snow, with cold temperatures.
+		</div>
+	</div>
+	<div id="button">
+	<button id="search" class="search"><img id="here" src="images/here.jpg"></button>
+	</div>
+	
+
+	<div id="map" class="col-sm-8" style="height: 300px;">
+	</div>
+	
+
+</div>
+
+</div>
+<script>
+
+
+
+
+	var geocoder;
+	var myLocation = null;
+	var map;
+	var service;
+	var infowindow;
+
+	$(document).ready(function(){
+
+	});
+
+	$('#search').click(function(){
+	    if (navigator.geolocation) {
+	    	var createSpan='<span id="hereiam">';
+	    	 createSpan+= 'You are here!';
+	  	createSpan +='</span>';
+	    $('#button').append(createSpan);
+
+	        navigator.geolocation.getCurrentPosition(displayMap);
+	    }
+	});
+
+	function displayMap(position){
+		  
+		  myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		  var mapOptions = {
+				          center: myLocation,
+				          zoom: 13
+				        };
+
+		 map = new google.maps.Map($('#map').get(0), mapOptions);
+		 infowindow = new google.maps.InfoWindow();
+
+		  // var request = {
+		  //   location: myLocation,
+		  //   radius: '5000',
+		  //   types: ['movie_theatre']
+		  // };
+
+		  var request = {
+		    location: myLocation,
+		    radius: '1000',
+		    query: 'location'
+		  };
+
+		service = new google.maps.places.PlacesService(map);
+		  // service.nearbySearch(request, callback);
+		  service.textSearch(request, callback);
+
+		  var marker = new google.maps.Marker({
+		    map: map,
+		    position: myLocation,
+		    title: 'Your Location'
+		  });
+	}
+
+	function callback(results, status) {
+	  if (status == google.maps.places.PlacesServiceStatus.OK) {
+	    for (var i = 0; i < results.length; i++) {
+	      var place = results[i];
+	      createMarker(results[i]);
+	    }
+	  }
+	}
+
+	function createMarker(place) {
+	  var marker = new google.maps.Marker({
+	    map: map,
+	    position: place.geometry.location,
+	    icon: {
+	      url: 'http://maps.gstatic.com/mapfiles/circle.png',
+	      anchor: new google.maps.Point(10, 10),
+	      scaledSize: new google.maps.Size(10, 17)
+	    }
+  		});
+  		google.maps.event.addListener(marker, 'click', function() {
+		    infowindow.setContent(place.name);
+		    infowindow.open(map, this);
+		  });
+
+	}
+
+
+function ajaxFunction(cityName)   //functionName could be anything
+{
+	//1. Create XmlHttpRequest Object
+	//This could be written into an external .js file that could be used within other pages as well.
+	var xmlHttp;
+   
+	try     // Firefox, Opera 8.0+, Safari
+	{
+		xmlHttp=new XMLHttpRequest();
+	}
+	catch (e)
+	{
+		try  // Internet Explorer
+		{
+			xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		catch (e)
+		{
+			try
+			{
+				xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch (e)
+			{
+				alert("Your browser does not support AJAX!");
+				return false;
+			}
+		}
+	}
+	
+	//2. Call the server-side script
+	//cityName is the function parameter passed when the JS function is called
+	xmlHttp.open("GET", "cities.jsp?q=" + cityName, true);   //q is the name of the parameter to be used in JSP
+	xmlHttp.send();   //leave blank, or pass null. Not used with GET requests
+
+	
+	//3. Check the server-data is ready
+	xmlHttp.onreadystatechange=function()
+	{
+		if(xmlHttp.readyState==4)
+		{
+			//4. Manipulate the DOM
+			var cityDiv = document.getElementById("cityDiv");
+			var serverData = xmlHttp.responseText;
+			cityDiv.innerHTML = serverData;
+		}
+	}
+
+}
+	
+</script>
+</body>
+</html>
